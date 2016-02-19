@@ -3,7 +3,7 @@ import socket
 import HelloWorld
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget
 from Utils import JSONEncoder
 
 ACTION_DOWN = 1
@@ -24,7 +24,7 @@ class TouchEvent:
 class Example(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.initUI()
+        # self.initUI()
 
     def initUI(self):
         self.setGeometry(300, 300, 290, 150)
@@ -95,6 +95,11 @@ class Example(QMainWindow):
         s.close()  # 关闭连接
         pass
 
+    def center(self):
+        self.setFixedSize(640, 480)
+        desktop = QApplication.desktop()
+        MainWindow.move((desktop.width() - self.width()) / 2, (desktop.height() - self.height()) / 2)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
@@ -103,5 +108,7 @@ if __name__ == '__main__':
     ui = HelloWorld.Ui_MainWindow()
     ui.setupUi(MainWindow)
 
+    MainWindow.center()
     MainWindow.show()
+
     sys.exit(app.exec_())
