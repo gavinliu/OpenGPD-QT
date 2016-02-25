@@ -19,6 +19,7 @@ class Ui_MainWindow(object):
         self.groupBox.setObjectName("groupBox")
         self.listView_2 = QtWidgets.QListView(self.groupBox)
         self.listView_2.setGeometry(QtCore.QRect(0, 20, 621, 211))
+        self.listView_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.listView_2.setObjectName("listView_2")
         self.groupBox_2 = QtWidgets.QGroupBox(self.centralwidget)
         self.groupBox_2.setGeometry(QtCore.QRect(10, 10, 621, 121))

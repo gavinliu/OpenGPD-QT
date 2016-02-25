@@ -13,4 +13,5 @@ def singleton(cls, *args, **kw):
 class Config(object):
     selectedDevice = ""
     devices = []
+    rules = []
 
