@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="title">
-     <string>Data</string>
+     <string>Rules</string>
     </property>
     <widget class="QListView" name="listView_2">
      <property name="geometry">
@@ -57,6 +57,9 @@
        <width>621</width>
        <height>91</height>
       </rect>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
      </property>
     </widget>
    </widget>
@@ -128,19 +131,37 @@
      <height>24</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuXx">
+   <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actionXx"/>
-    <addaction name="separator"/>
-    <addaction name="actionAbout"/>
+    <addaction name="actionHelp"/>
    </widget>
-   <addaction name="menuXx"/>
+   <widget class="QMenu" name="menuAout">
+    <property name="title">
+     <string>Aout</string>
+    </property>
+    <addaction name="actionAbout_Author"/>
+    <addaction name="actionAoub_OpenGpad"/>
+   </widget>
+   <addaction name="menuAout"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::TopToolBarArea</set>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextOnly</enum>
+   </property>
+   <property name="floatable">
+    <bool>true</bool>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -149,8 +170,11 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionConnection"/>
+   <addaction name="separator"/>
+   <addaction name="actionDisconnection"/>
+   <addaction name="actionGetRules"/>
   </widget>
-  <action name="actionXx">
+  <action name="actionHelp">
    <property name="text">
     <string>Help ?</string>
    </property>
@@ -166,6 +190,37 @@
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionDisconnection">
+   <property name="text">
+    <string>Disconnection</string>
+   </property>
+   <property name="toolTip">
+    <string>Disconnection</string>
+   </property>
+  </action>
+  <action name="actionGetDevice">
+   <property name="text">
+    <string>GetDevice</string>
+   </property>
+   <property name="toolTip">
+    <string>GetDevice</string>
+   </property>
+  </action>
+  <action name="actionGetRules">
+   <property name="text">
+    <string>GetRules</string>
+   </property>
+  </action>
+  <action name="actionAbout_Author">
+   <property name="text">
+    <string>About Author</string>
+   </property>
+  </action>
+  <action name="actionAoub_OpenGpad">
+   <property name="text">
+    <string>About OpenGpad</string>
    </property>
   </action>
  </widget>

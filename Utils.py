@@ -1,8 +1,7 @@
 import json
 
 
-class JSONEncoder(json.JSONEncoder):
-    def toJsonStr(self, obj):
+def toJsonStr(obj):
         # convert object to a dict
         d = {}
         # d['__class__'] = obj.__class__.__name__
