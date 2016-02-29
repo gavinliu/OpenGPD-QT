@@ -1,17 +1,21 @@
-import os
-import re
 import sys
 
 from PyQt5 import QtCore
-from PyQt5.QtCore import Qt, QStringListModel, QModelIndex
+from PyQt5.QtCore import Qt, QStringListModel, QModelIndex, QThread
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
+
+import ADB
+import Constant
+import Utils
+from Config import Config
+from Entity import TouchEvent
 from Main_UI import Ui_MainWindow
 from Main_UI_Dialog import Ui_Dialog
 
-import Utils
-import Constant
-from Entity import TouchEvent
-from Config import Config
+
+class StartTesting(QThread):
+    def run(self):
+        ADB.startTesting(config.selectedDevice)
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -29,11 +33,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_pushButton_clicked(self):
         print("on_pushButton_clicked ", config.selectedDevice)
         MainDialog.show()
+        thread.start()
 
     @QtCore.pyqtSlot(QModelIndex)
     def on_listView_clicked(self, index):
         config.selectedDevice = config.devices[index.row()]
+
+        ADB.startForward(config.selectedDevice, "8000", "9000")
+        ADB.startForward(config.selectedDevice, "8001", "9001")
+
         print("on_listView_clicked: ", config.selectedDevice)
+        ADB.checkAPK(config.selectedDevice)
+        ADB.startHelperApp(config.selectedDevice)
+
 
     @QtCore.pyqtSlot(QModelIndex)
     def on_listView_2_clicked(self, index):
@@ -49,6 +61,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionGetRules_triggered(self, triggered):
         print("on_actionGetRules_triggered: ", triggered)
         data = Utils.getRules()
+        if not len(data):
+            return
+
         lists = Utils.jsonStrToObject(data)
 
         config.rules = lists
@@ -72,6 +87,7 @@ class MainDialog(QDialog, Ui_Dialog):
         QDialog.__init__(self)
         self.setupUi(self)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
+        self.setFixedSize(320, 240)
 
     def keyPressEvent(self, QKeyEvent):
         if not QKeyEvent.isAutoRepeat():
@@ -95,15 +111,16 @@ class MainDialog(QDialog, Ui_Dialog):
                     Utils.sendMSG(Utils.toJsonStr(touch))
                     print("释放：", event, button)
 
+    def closeEvent(self, QCloseEvent):
+        Utils.sendMSG("CLOSE")
+
 
 if __name__ == '__main__':
     config = Config()
 
-    output = os.popen('adb devices')
-    shell_devices = output.read()
-    shell_devices = shell_devices.replace("\tdevice", "").replace("List of devices attached\n", "")
-    shell_devices = re.compile(r'(\n){2,}').sub("", shell_devices)
-    config.devices = shell_devices.split("\n")
+    thread = StartTesting()
+
+    config.devices = ADB.getDevice()
 
     app = QApplication(sys.argv)
 

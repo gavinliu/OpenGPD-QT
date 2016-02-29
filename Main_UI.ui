@@ -147,6 +147,14 @@
     <addaction name="actionAbout_Author"/>
     <addaction name="actionAoub_OpenGpad"/>
    </widget>
+   <widget class="QMenu" name="menuADB_Tool">
+    <property name="title">
+     <string>ADB Tool</string>
+    </property>
+    <addaction name="actionKill_Server"/>
+    <addaction name="actionStart_Server"/>
+   </widget>
+   <addaction name="menuADB_Tool"/>
    <addaction name="menuAout"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -224,6 +232,16 @@
   <action name="actionAoub_OpenGpad">
    <property name="text">
     <string>About OpenGpad</string>
+   </property>
+  </action>
+  <action name="actionKill_Server">
+   <property name="text">
+    <string>Kill-Server</string>
+   </property>
+  </action>
+  <action name="actionStart_Server">
+   <property name="text">
+    <string>Start-Server</string>
    </property>
   </action>
  </widget>

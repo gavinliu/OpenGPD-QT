@@ -1,3 +1,9 @@
 #IntelliJ IDEA
 .idea
 __pycache__/
+
+#pyinstaller
+*.spec
+
+build/
+dist/

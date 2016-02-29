@@ -26,10 +26,13 @@ def getRules():
     s.sendall("ACTION_GET_RULES".encode(encoding="utf-8"))  # 把命令发送给对端
     data = ""
     while True:
-        buf = s.recv(1024).decode("utf-8")
-        data = data + buf
-        if not len(buf):
-            break
+        try:
+            buf = s.recv(1024).decode("utf-8")
+            data = data + buf
+            if not len(buf):
+                break
+        except Exception as e:
+            print(e)
     s.close()  # 关闭连接
     return data
 
@@ -39,8 +42,14 @@ def sendMSG(message):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # 定义socket类型，网络通信，TCP
     s.connect((HOST, PORT))  # 要连接的IP与端口
     s.sendall(message.encode(encoding="utf-8"))  # 把命令发送给对端
-    # data = s.recv(1024)  # 把接收的数据定义为变量
-    # print(type(data))
-    # print(data.decode())  # 输出变量
+    data = ""
+    while True:
+        try:
+            buf = s.recv(1024).decode("utf-8")
+            data = data + buf
+            if not len(buf):
+                break
+        except Exception as e:
+            print(e)
     s.close()  # 关闭连接
     pass

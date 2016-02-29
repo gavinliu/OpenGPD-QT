@@ -14,4 +14,3 @@ class Config(object):
     selectedDevice = ""
     devices = []
     rules = []
-

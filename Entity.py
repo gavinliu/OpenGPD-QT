@@ -1,4 +1,3 @@
-
 class TouchEvent:
     def __init__(self, x, y, action):
         self.x = x
