@@ -24,15 +24,15 @@
      </rect>
     </property>
     <property name="title">
-     <string>Rules</string>
+     <string>映射列表</string>
     </property>
     <widget class="QListView" name="listView_2">
      <property name="geometry">
       <rect>
-       <x>0</x>
+       <x>10</x>
        <y>20</y>
-       <width>621</width>
-       <height>211</height>
+       <width>601</width>
+       <height>201</height>
       </rect>
      </property>
      <property name="editTriggers">
@@ -50,14 +50,14 @@
      </rect>
     </property>
     <property name="title">
-     <string>Device List</string>
+     <string>设备列表</string>
     </property>
     <widget class="QListView" name="listView">
      <property name="geometry">
       <rect>
-       <x>0</x>
+       <x>10</x>
        <y>20</y>
-       <width>621</width>
+       <width>601</width>
        <height>91</height>
       </rect>
      </property>
@@ -83,7 +83,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>380</y>
+      <y>360</y>
       <width>621</width>
       <height>41</height>
      </rect>
@@ -105,7 +105,7 @@
      <item>
       <widget class="QPushButton" name="pushButton">
        <property name="text">
-        <string>Start</string>
+        <string>开始</string>
        </property>
       </widget>
      </item>
@@ -131,25 +131,25 @@
      <x>0</x>
      <y>0</y>
      <width>640</width>
-     <height>24</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>Help</string>
+     <string>帮助</string>
     </property>
     <addaction name="actionHelp"/>
    </widget>
    <widget class="QMenu" name="menuAout">
     <property name="title">
-     <string>Aout</string>
+     <string>关于</string>
     </property>
     <addaction name="actionAbout_Author"/>
     <addaction name="actionAoub_OpenGpad"/>
    </widget>
    <widget class="QMenu" name="menuADB_Tool">
     <property name="title">
-     <string>ADB Tool</string>
+     <string>ADB 工具</string>
     </property>
     <addaction name="actionKill_Server"/>
     <addaction name="actionStart_Server"/>
@@ -180,35 +180,18 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionConnection"/>
    <addaction name="separator"/>
-   <addaction name="actionDisconnection"/>
    <addaction name="actionGetRules"/>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionHelp">
    <property name="text">
-    <string>Help ?</string>
-   </property>
-  </action>
-  <action name="actionConnection">
-   <property name="text">
-    <string>Connection</string>
-   </property>
-   <property name="toolTip">
-    <string>Connection</string>
+    <string>帮助</string>
    </property>
   </action>
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
-   </property>
-  </action>
-  <action name="actionDisconnection">
-   <property name="text">
-    <string>Disconnection</string>
-   </property>
-   <property name="toolTip">
-    <string>Disconnection</string>
    </property>
   </action>
   <action name="actionGetDevice">
@@ -221,17 +204,17 @@
   </action>
   <action name="actionGetRules">
    <property name="text">
-    <string>GetRules</string>
+    <string>获取映射列表</string>
    </property>
   </action>
   <action name="actionAbout_Author">
    <property name="text">
-    <string>About Author</string>
+    <string>关于作者</string>
    </property>
   </action>
   <action name="actionAoub_OpenGpad">
    <property name="text">
-    <string>About OpenGpad</string>
+    <string>关于项目</string>
    </property>
   </action>
   <action name="actionKill_Server">

@@ -8,9 +8,13 @@ def getDevice():
     shell_devices = output.read()
     print(shell_devices)
 
-    shell_devices = shell_devices.replace("\tdevice", "").replace("List of devices attached\n", "")
+    shell_devices = shell_devices.replace("\tdevice", "").replace("List of devices attached", "").replace(" ", "")
     shell_devices = re.compile(r'(\n){2,}').sub("", shell_devices)
     devices = shell_devices.split("\n")
+
+    for x in devices:
+        if not len(x):
+            devices.remove(x)
 
     print("getDevice <<<")
     return devices
@@ -44,12 +48,14 @@ def startTesting(device):
     return shell
 
 
-def startHelperApp(device):
+def startHelperApp(device, info):
     print("startHelperApp >>>")
     output = os.popen("./adb/adb -s " + device + " shell am start -n cn.gavinliu.open.gamepad.helper/.ui.MainActivity")
     shell = output.read()
     print(shell)
     print("startHelperApp <<<")
+
+    info.setText("请在手机上编辑映射规则，后点击[获取映射列表]")
     return shell
 
 
@@ -62,27 +68,27 @@ def startForward(device, port, remote):
     return shell
 
 
-def checkAPK(device):
+def checkAPK(device, info):
     print("checkAPK >>>")
-
-    output = os.popen("./adb/adb -s " + device + " shell pm list package")
-    shell = output.read()
-    index = shell.find("cn.gavinliu.open.gamepad.support")
-    if index == -1:
-        print("Not find OpenGpad-Support")
-        install(device, "apk/OpenGpad-Support.apk")
-
-    index = shell.find("cn.gavinliu.open.gamepad.helper")
-    if index == -1:
-        print("Not find OpenGpad-Helper")
-        install(device, "apk/OpenGpad-Helper.apk")
 
     output = os.popen("./adb/adb -s " + device + " shell pm list instrumentation")
     shell = output.read()
     index = shell.find("OpenGamePad.Support.Library")
     if index == -1:
-        print("Not find OpenGpad-Support-androidTest")
+        info.setText("检测到没有安装OpenGpad-Support，正在安装...")
         install(device, "apk/OpenGpad-Support-androidTest.apk")
+
+    output = os.popen("./adb/adb -s " + device + " shell pm list package")
+    shell = output.read()
+    index = shell.find("cn.gavinliu.open.gamepad.support")
+    if index == -1:
+        info.setText("检测到没有安装OpenGpad-Support，正在安装...")
+        install(device, "apk/OpenGpad-Support.apk")
+
+    index = shell.find("cn.gavinliu.open.gamepad.helper")
+    if index == -1:
+        info.setText("检测到没有安装OpenGpad-Helper，正在安装...")
+        install(device, "apk/OpenGpad-Helper.apk")
 
     print("checkAPK <<<")
 
