@@ -3,6 +3,7 @@ import re
 
 import Utils
 
+cmd_apk = Utils.resource_path("apk")
 cmd_adb = Utils.resource_path("adb" + os.path.sep + "adb")
 
 
@@ -85,19 +86,19 @@ def checkAPK(device, info):
     index = shell.find("OpenGamePad.Support.Library")
     if index == -1:
         info.setText("检测到没有安装OpenGpad-Support，正在安装...")
-        install(device, "apk" + os.path.sep + "OpenGpad-Support-androidTest.apk")
+        install(device, cmd_apk + os.path.sep + "OpenGpad-Support-androidTest.apk")
 
     output = os.popen(cmd_adb + " -s " + device + " shell pm list package")
     shell = output.read()
     index = shell.find("cn.gavinliu.open.gamepad.support")
     if index == -1:
         info.setText("检测到没有安装OpenGpad-Support，正在安装...")
-        install(device, "apk" + os.path.sep + "OpenGpad-Support.apk")
+        install(device, cmd_apk + os.path.sep + "OpenGpad-Support.apk")
 
     index = shell.find("cn.gavinliu.open.gamepad.helper")
     if index == -1:
         info.setText("检测到没有安装OpenGpad-Helper，正在安装...")
-        install(device, "apk" + os.path.sep + "OpenGpad-Helper.apk")
+        install(device, cmd_apk + os.path.sep + "OpenGpad-Helper.apk")
 
     print("checkAPK <<<")
 
