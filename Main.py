@@ -56,7 +56,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @QtCore.pyqtSlot()
     def on_pushButton_clicked(self):
-        print("on_pushButton_clicked ", config.selectedDevice)
         testRunner.start()
 
         MainDialog.setWindowModality(Qt.ApplicationModal)
@@ -71,19 +70,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         ADB.startForward(config.selectedDevice, "8000", "9000")
         ADB.startForward(config.selectedDevice, "8001", "9001")
 
-        print("on_listView_clicked: ", config.selectedDevice)
         checker.start()
 
     @QtCore.pyqtSlot(QModelIndex)
     def on_listView_2_clicked(self, index):
         config.selectedRules = config.rules[index.row()]
         config.selectedButtons = config.selectedRules["faceButtons"]
-        print("on_listView2_clicked: ", config.selectedRules)
         MainWindow.pushButton.setEnabled(True)
 
     @QtCore.pyqtSlot(bool)
     def on_actionGetRules_triggered(self, triggered):
-        print("on_actionGetRules_triggered: ", triggered)
         data = Utils.getRules()
         if not len(data):
             return
@@ -157,7 +153,6 @@ class MainDialog(QDialog, Ui_Dialog):
                 if button["key"] == event:
                     touch = TouchEvent(button["x"], button["y"], Constant.ACTION_TOUCH_DOWN)
                     Utils.sendMSG(Utils.toJsonStr(touch))
-                    print("点击：", event, button)
 
     def keyReleaseEvent(self, QKeyEvent):
         if not QKeyEvent.isAutoRepeat():
@@ -168,7 +163,6 @@ class MainDialog(QDialog, Ui_Dialog):
                 if button["key"] == event:
                     touch = TouchEvent(button["x"], button["y"], Constant.ACTION_TOUCH_UP)
                     Utils.sendMSG(Utils.toJsonStr(touch))
-                    print("释放：", event, button)
 
     def closeEvent(self, QCloseEvent):
         Utils.sendMSG("CLOSE")
