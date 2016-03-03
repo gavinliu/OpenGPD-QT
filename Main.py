@@ -3,7 +3,7 @@ import sys
 from PyQt5 import QtCore
 from PyQt5.QtCore import Qt, QStringListModel, QModelIndex, QThread, QUrl
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QLabel
-from PyQt5.QtGui import QDesktopServices
+from PyQt5.QtGui import QDesktopServices, QIcon
 
 import ADB
 import Constant
@@ -27,6 +27,14 @@ class Checker(QThread):
         MainWindow.actionGetRules.setEnabled(True)
 
 
+class DevicesGetter(QThread):
+    finish = QtCore.pyqtSignal()
+
+    def run(self):
+        config.devices = ADB.getDevice()
+        self.finish.emit()
+
+
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
@@ -41,6 +49,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setFixedSize(640, 480)
         desktop = QApplication.desktop()
         MainWindow.move((desktop.width() - self.width()) / 2, (desktop.height() - self.height()) / 2)
+
+    def up(self):
+        self.listView.setModel(QStringListModel(config.devices))
+        pass
 
     @QtCore.pyqtSlot()
     def on_pushButton_clicked(self):
@@ -118,6 +130,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         QDesktopServices.openUrl(QUrl("https://github.com/gavinliu/OpenGpad"))
         pass
 
+    @QtCore.pyqtSlot(bool)
+    def on_actionGetDevices_triggered(self, triggered):
+        deviceGetter.start()
+
+    def closeEvent(self, QCloseEvent):
+        testRunner.exit()
+        checker.exit()
+        deviceGetter.exit()
+
 
 class MainDialog(QDialog, Ui_Dialog):
     def __init__(self):
@@ -158,19 +179,22 @@ if __name__ == '__main__':
 
     testRunner = TestRunner()
     checker = Checker()
-
-    config.devices = ADB.getDevice()
+    deviceGetter = DevicesGetter()
 
     app = QApplication(sys.argv)
 
     MainWindow = MainWindow()
-    MainWindow.listView.setModel(QStringListModel(config.devices))
 
+    print(Utils.resource_path("favicon.ico"))
+
+    MainWindow.setWindowIcon(QIcon("favicon.ico"))
     MainWindow.groupBox.setEnabled(False)
     MainWindow.pushButton.setEnabled(False)
     MainWindow.actionGetRules.setEnabled(False)
 
-    MainWindow.info.setText("提示：先选择手机，然后获取映射规则")
+    MainWindow.info.setText("提示：先获取手机列表, 选择手机，然后获取映射规则")
+
+    deviceGetter.finish.connect(MainWindow.up, Qt.QueuedConnection)
 
     MainWindow.center()
     MainWindow.show()

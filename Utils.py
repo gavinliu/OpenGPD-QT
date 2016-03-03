@@ -1,5 +1,7 @@
 import json
 import socket
+import sys
+import os
 
 
 def toJsonStr(obj):
@@ -52,4 +54,16 @@ def sendMSG(message):
         except Exception as e:
             print(e)
     s.close()  # 关闭连接
+    pass
+
+def resource_path(relative_path):
+    if hasattr(sys, "_MEIPASS"):
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
+
+if __name__ == '__main__':
+    print(resource_path("xx" + os.path.sep + "xx"))
     pass
